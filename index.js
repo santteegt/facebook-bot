@@ -207,7 +207,9 @@ app.post('/webhook', function (req, res) {
 		    	let text = event.message.text || "Empty message. That's really weird men"
 		    	// sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 		      	receivedMessage(event);
-		    } else {
+		    } else if(enent.postback) {
+				receivedPostback(event);
+			} else {
 		      console.log("Webhook received unknown event: ", event);
 		    }
 		  });
@@ -220,8 +222,6 @@ app.post('/webhook', function (req, res) {
 		// will time out and we will keep trying to resend.
 		res.sendStatus(200);
 
-	} else if(enent.postback) {
-		receivedPostback(event);
 	}
 })
 
