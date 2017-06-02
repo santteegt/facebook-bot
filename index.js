@@ -142,7 +142,7 @@ app.get('/webhook/', function (req, res) {
 
 	      // Iterate over each messaging event
 	      entry.messaging.forEach(function(event) {
-	      	let event = event.sender.id
+	      	let sender = event.sender.id
 	        if (event.message) {
 	        	let text = event.message.text || "Empty message. That's really weird men"
 	        	// sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
