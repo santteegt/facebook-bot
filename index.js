@@ -207,7 +207,7 @@ app.post('/webhook', function (req, res) {
 		    	let text = event.message.text || "Empty message. That's really weird men"
 		    	// sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 		      	receivedMessage(event);
-		    } else if(enent.postback) {
+		    } else if(event.postback) {
 				receivedPostback(event);
 			} else {
 		      console.log("Webhook received unknown event: ", event);
