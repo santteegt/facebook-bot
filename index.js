@@ -156,11 +156,50 @@ function receivedPostback(event) {
   sendTextMessage(senderID, "Postback called");
 }
 
+function getUserInfo(psid) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/' + psid,
+    qs: { 
+    	fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
+    	access_token: FB_ACCESS_TOKEN
+    },
+    method: 'GET'
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+
+    	let first_name = body.first_name;
+    	let last_name = body.last_name;
+    	let profile_pic = body.profile_pic;
+    	let locale = body.locale;
+    	let timezone = body.timezone;
+    	let gender = body.gender;
+
+    	console.log('User info: Name %s %s | Locale %s | Timezone %s | Gender %s | Profile Picture -> %s'
+    		, first_name, last_name, locale, timezone, gender, profile_pic)
+
+    } else {
+      console.error("Unable to get user profile info.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
+}
+
+// ******************************* //
+// ******************************* //
+
 
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+const mongoose = require('mongoose')
 const app = express()
+
+mongoose.connect(process.env.MONGOLAB_URI, function (error) {
+    if (error) console.error(error);
+    else console.log('CONNECTED TO MONGOLAB INSTANCE');
+});
 
 app.set('port', (process.env.PORT || 5000))
 
