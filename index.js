@@ -114,9 +114,11 @@ app.get('/', function (req, res) {
 // for Facebook verification
 app.get('/webhook', function (req, res) {
 
-	// if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
-	// 	res.send(req.query['hub.challenge'])
-	// }
+	console.log('REQUEST TO WEBHOOK ' + req.query['hub.verify_token'])
+
+	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+		res.send(req.query['hub.challenge'])
+	}
 	// res.send('Error, wrong token')
 	// console.log(req)
 
@@ -130,7 +132,7 @@ app.get('/webhook', function (req, res) {
 	//     }
  //    }
  //    res.sendStatus(200)
- console.log('REQUEST TO WEBHOOK');
+
   var data = req.body;
 
   // Make sure this is a page subscription
