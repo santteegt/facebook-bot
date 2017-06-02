@@ -196,6 +196,18 @@ const request = require('request')
 const mongoose = require('mongoose')
 const app = express()
 
+const User_Schema = new mongoose.Schema({
+  id: String, 
+  first_name: String,
+  last_name: String,
+  profile_pic: String,
+  locale: String,
+  timezone: Number,
+  gender: String
+})
+
+const User = mongoose.model('User', User_Schema);
+
 mongoose.connect(process.env.MLAB_URI, function (error) {
     if (error) console.error(error);
     else console.log('CONNECTED TO MONGOLAB INSTANCE');
@@ -242,6 +254,12 @@ app.post('/webhook', function (req, res) {
 		  // Iterate over each messaging event
 		  entry.messaging.forEach(function(event) {
 		  	let sender = event.sender.id
+		  	let user = findUserById(sender)
+		  	if(user) {
+		  		console.log(user)
+		  	} else {
+		  		console.log('USER NOT FOUND')
+		  	}
 		    if (event.message) {
 		    	let text = event.message.text || "Empty message. That's really weird men"
 		    	// sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
@@ -263,6 +281,12 @@ app.post('/webhook', function (req, res) {
 
 	}
 })
+
+function findUserById(psid) {
+	User.findById( psid, ( err, user ) => {
+      return user || undefined;
+    });
+}
 
 // Spin up the server
 app.listen(app.get('port'), function() {
