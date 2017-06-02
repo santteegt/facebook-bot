@@ -196,7 +196,7 @@ const request = require('request')
 const mongoose = require('mongoose')
 const app = express()
 
-mongoose.connect(process.env.MONGOLAB_URI, function (error) {
+mongoose.connect(process.env.MLAB_URI, function (error) {
     if (error) console.error(error);
     else console.log('CONNECTED TO MONGOLAB INSTANCE');
 });
