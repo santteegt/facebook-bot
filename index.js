@@ -168,6 +168,9 @@ function getUserInfo(psid) {
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
 
+    	console.log(response)
+    	console.log(body)
+
     	let first_name = body.first_name;
     	let last_name = body.last_name;
     	let profile_pic = body.profile_pic;
@@ -175,21 +178,21 @@ function getUserInfo(psid) {
     	let timezone = body.timezone;
     	let gender = body.gender;
 
-    	var user = new User( {
-    		id: psid,
-    		first_name: first_name,
-    		last_name: last_name,
-    		profile_pic: profile_pic,
-    		locale: locale,
-    		timezone: timezone,
-    		gender: gender
-    	} );
+    	// var user = new User( {
+    	// 	id: psid,
+    	// 	first_name: first_name,
+    	// 	last_name: last_name,
+    	// 	profile_pic: profile_pic,
+    	// 	locale: locale,
+    	// 	timezone: timezone,
+    	// 	gender: gender
+    	// } );
 	    
-	    user.save((err) => {
-	      if(err) {
-	      	console.log("SOMETHING WENT WRONG WHILE SAVING THE USER ON mLab")
-	      }
-	    });
+	    // user.save((err) => {
+	    //   if(err) {
+	    //   	console.log("SOMETHING WENT WRONG WHILE SAVING THE USER ON mLab")
+	    //   }
+	    // });
 
     	console.log('User info: Name %s %s | Locale %s | Timezone %s | Gender %s | Profile Picture -> %s'
     		, first_name, last_name, locale, timezone, gender, profile_pic)
