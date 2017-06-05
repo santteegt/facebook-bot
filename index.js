@@ -56,29 +56,30 @@ function receivedMessage(event) {
 
 function saveNewsMessage(psid, message) {
 	const url_fb_prefix = 'https://l.facebook.com/l.php?u='
-	let url = '' + message.attachments.url
 
-	url = url.substring(url_fb_prefix.length)
+	_.each(message.attachments, (element) => {
 
-	var newsItem = new News( {
-		mid: message.mid,
-		psid: psid,
-		seq: message.seq,
-		title: message.attachments.title,
-		url: url,
-		type: message.attachments.type
-	} );
-	    
-    newsItem.save((err) => {
-      if(err) {
-      	console.log("SOMETHING WENT WRONG WHILE SAVING A NEWS ITEM ON mLab")
-      }
-    });
+		let url = '' + element.url
 
-}
+		url = url.substring(url_fb_prefix.length)
 
-function sendGenericMessage(recipientId, messageText) {
-  // To be expanded in later sections
+		var newsItem = new News( {
+			mid: message.mid,
+			psid: psid,
+			seq: message.seq,
+			title: element.title,
+			url: url,
+			type: element.type
+		} );
+		    
+	    newsItem.save((err) => {
+	      if(err) {
+	      	console.log("SOMETHING WENT WRONG WHILE SAVING A NEWS ITEM ON mLab")
+	      }
+	    });
+	})
+	
+
 }
 
 function sendTextMessage(recipientId, messageText) {
@@ -236,6 +237,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const mongoose = require('mongoose')
+const _ = requre('underscore')
 const app = express()
 
 const User_Schema = new mongoose.Schema({
