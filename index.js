@@ -272,13 +272,21 @@ app.post('/webhook', function (req, res) {
 		  // Iterate over each messaging event
 		  entry.messaging.forEach(function(event) {
 		  	let sender = event.sender.id
-		  	let user = findUserById(sender)
-		  	if(user != undefined) {
-		  		console.log(user)
-		  		console.log("USER %s IS ALREADY REGISTERED", user.first_name)
-		  	} else {
-		  		getUserInfo(sender)
+		  	let userQuery = findUserById(sender)
+		  	userQuery.exec((error, user) =>) {
+		  		if(error) {
+		  			console.log("FATAL ERROR WHILE QUERYING USER")
+		  		} else {
+		  			if(user) {
+				  		console.log(user)
+				  		console.log("USER %s IS ALREADY REGISTERED", user.first_name)
+				  	} else {
+				  		getUserInfo(sender)
+				  	}		
+		  		}
+
 		  	}
+		  	
 		    if (event.message) {
 		    	let text = event.message.text || "Empty message. That's really weird men"
 		    	// sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
