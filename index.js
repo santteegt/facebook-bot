@@ -61,7 +61,9 @@ function saveNewsMessage(psid, message) {
 
 		let url = '' + element.url
 
-		url = url.substring(url_fb_prefix.length)
+		if(url.lastIndexOf(url_fb_prefix) != -1) {
+			url = url.substring(url_fb_prefix.length)
+		}
 
 		var newsItem = new News( {
 			mid: message.mid,
