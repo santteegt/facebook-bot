@@ -261,6 +261,8 @@ app.post('/webhook', function (req, res) {
 
 	var data = req.body;
 
+	console.log(data)
+
   	// Make sure this is a page subscription
 	if (data.object === 'page') {
 
@@ -278,7 +280,6 @@ app.post('/webhook', function (req, res) {
 		  			console.log("FATAL ERROR WHILE QUERYING USER")
 		  		} else {
 		  			if(user) {
-				  		console.log(user)
 				  		console.log("USER %s IS ALREADY REGISTERED", user.first_name)
 				  	} else {
 				  		getUserInfo(sender)
