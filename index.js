@@ -237,7 +237,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const mongoose = require('mongoose')
-const _ = requre('underscore')
+const _ = require('underscore')
 const app = express()
 
 const User_Schema = new mongoose.Schema({
