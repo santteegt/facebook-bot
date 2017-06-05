@@ -273,7 +273,7 @@ app.post('/webhook', function (req, res) {
 		  entry.messaging.forEach(function(event) {
 		  	let sender = event.sender.id
 		  	let userQuery = findUserById(sender)
-		  	userQuery.exec((error, user) =>) {
+		  	userQuery.exec((error, user) => {
 		  		if(error) {
 		  			console.log("FATAL ERROR WHILE QUERYING USER")
 		  		} else {
@@ -285,7 +285,7 @@ app.post('/webhook', function (req, res) {
 				  	}		
 		  		}
 
-		  	}
+		  	})
 		  	
 		    if (event.message) {
 		    	let text = event.message.text || "Empty message. That's really weird men"
