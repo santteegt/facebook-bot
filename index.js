@@ -57,7 +57,7 @@ function receivedMessage(event) {
 function saveNewsMessage(psid, message) {
 	const url_fb_prefix = 'https://l.facebook.com/l.php?u='
 	var newsItem = new News( {
-		id: message.mid
+		mid: message.mid,
 		psid: psid,
 		seq: message.seq,
 		title: message.attachments.title,
