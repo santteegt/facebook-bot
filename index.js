@@ -49,9 +49,28 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
-    console.log(messageAttachments)
+  	saveNewsMessage(senderID, message)
+    sendTextMessage(senderID, "Thanks for your feedback! :)");
   }
+}
+
+function saveNewsMessage(psid, message) {
+	const url_fb_prefix = 'https://l.facebook.com/l.php?u='
+	var newsItem = new News( {
+		id: message.mid
+		psid: psid,
+		seq: message.seq,
+		title: message.attachments.title,
+		url: message.attachments.url.substr(url_fb_prefix.length)
+		type: message.attachments.type
+	} );
+	    
+    newsItem.save((err) => {
+      if(err) {
+      	console.log("SOMETHING WENT WRONG WHILE SAVING A NEWS ITEM ON mLab")
+      }
+    });
+
 }
 
 function sendGenericMessage(recipientId, messageText) {
@@ -225,11 +244,22 @@ const User_Schema = new mongoose.Schema({
   gender: String
 })
 
-const User = mongoose.model('User', User_Schema);
+const News_Schema = new mongoose.Schema({
+	mid: String,
+	psid: String,
+	seq: Number,
+	title: String,
+	url: String,
+	type: String
+
+})
+
+const User = mongoose.model('User', User_Schema)
+const News = mongoose.model('News', News_Schema)
 
 mongoose.connect(process.env.MLAB_URI, function (error) {
     if (error) console.error(error);
-    else console.log('CONNECTED TO MONGOLAB INSTANCE');
+    else console.log('CONNECTED TO mLAB INSTANCE');
 });
 
 app.set('port', (process.env.PORT || 5000))
@@ -239,6 +269,10 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 // Process application/json
 app.use(bodyParser.json())
+
+
+// ******************************* //
+// ******************************* //
 
 // Index route
 app.get('/', function (req, res) {
