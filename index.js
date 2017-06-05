@@ -56,12 +56,16 @@ function receivedMessage(event) {
 
 function saveNewsMessage(psid, message) {
 	const url_fb_prefix = 'https://l.facebook.com/l.php?u='
+	let url = '' + message.attachments.url
+
+	url = url.substring(url_fb_prefix.length)
+
 	var newsItem = new News( {
 		mid: message.mid,
 		psid: psid,
 		seq: message.seq,
 		title: message.attachments.title,
-		url: message.attachments.url.substr(url_fb_prefix.length),
+		url: url,
 		type: message.attachments.type
 	} );
 	    
