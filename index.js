@@ -168,31 +168,30 @@ function getUserInfo(psid) {
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
 
-    	console.log(response)
-    	console.log(body)
+    	let data = JSON.parse(body)
 
-    	let first_name = body.first_name;
-    	let last_name = body.last_name;
-    	let profile_pic = body.profile_pic;
-    	let locale = body.locale;
-    	let timezone = body.timezone;
-    	let gender = body.gender;
+    	let first_name = data.first_name;
+    	let last_name = data.last_name;
+    	let profile_pic = data.profile_pic;
+    	let locale = data.locale;
+    	let timezone = data.timezone;
+    	let gender = data.gender;
 
-    	// var user = new User( {
-    	// 	id: psid,
-    	// 	first_name: first_name,
-    	// 	last_name: last_name,
-    	// 	profile_pic: profile_pic,
-    	// 	locale: locale,
-    	// 	timezone: timezone,
-    	// 	gender: gender
-    	// } );
+    	var user = new User( {
+    		id: psid,
+    		first_name: first_name,
+    		last_name: last_name,
+    		profile_pic: profile_pic,
+    		locale: locale,
+    		timezone: timezone,
+    		gender: gender
+    	} );
 	    
-	    // user.save((err) => {
-	    //   if(err) {
-	    //   	console.log("SOMETHING WENT WRONG WHILE SAVING THE USER ON mLab")
-	    //   }
-	    // });
+	    user.save((err) => {
+	      if(err) {
+	      	console.log("SOMETHING WENT WRONG WHILE SAVING THE USER ON mLab")
+	      }
+	    });
 
     	console.log('User info: Name %s %s | Locale %s | Timezone %s | Gender %s | Profile Picture -> %s'
     		, first_name, last_name, locale, timezone, gender, profile_pic)
@@ -275,7 +274,7 @@ app.post('/webhook', function (req, res) {
 		  	let sender = event.sender.id
 		  	let user = findUserById(sender)
 		  	if(user) {
-		  		console.log(user)
+		  		console.log("USER %s IS ALREADY REGISTERED", user.first_name)
 		  	} else {
 		  		getUserInfo(sender)
 		  	}
@@ -302,8 +301,11 @@ app.post('/webhook', function (req, res) {
 })
 
 function findUserById(psid) {
-	User.findById( psid, ( err, user ) => {
-      return user || undefined;
+	User.findOne( {'id': psid}, ( err, user ) => {
+		if(err) {
+			console.log('ERROW WHILE QUERYNG USER')
+		}
+      	return user || undefined;
     });
 }
 
