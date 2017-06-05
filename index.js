@@ -36,8 +36,10 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
 
-  if (messageText) {
-
+  if (messageAttachments) {
+  	saveNewsMessage(senderID, message)
+    sendTextMessage(senderID, "Thanks for your feedback! :)");
+  } else if (messageText) {
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
     switch (messageText) {
@@ -48,9 +50,6 @@ function receivedMessage(event) {
       default:
         sendTextMessage(senderID, messageText);
     }
-  } else if (messageAttachments) {
-  	saveNewsMessage(senderID, message)
-    sendTextMessage(senderID, "Thanks for your feedback! :)");
   }
 }
 
