@@ -273,7 +273,8 @@ app.post('/webhook', function (req, res) {
 		  entry.messaging.forEach(function(event) {
 		  	let sender = event.sender.id
 		  	let user = findUserById(sender)
-		  	if(user) {
+		  	if(user != undefined) {
+		  		console.log(user)
 		  		console.log("USER %s IS ALREADY REGISTERED", user.first_name)
 		  	} else {
 		  		getUserInfo(sender)
