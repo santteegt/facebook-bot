@@ -301,12 +301,7 @@ app.post('/webhook', function (req, res) {
 })
 
 function findUserById(psid) {
-	User.findOne( {'id': psid}, ( err, user ) => {
-		if(err) {
-			console.log('ERROW WHILE QUERYNG USER')
-		}
-      	return user || undefined;
-    });
+	return User.findOne( {'id': psid} )
 }
 
 // Spin up the server
