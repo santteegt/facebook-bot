@@ -61,7 +61,7 @@ function saveNewsMessage(psid, message) {
 		psid: psid,
 		seq: message.seq,
 		title: message.attachments.title,
-		url: message.attachments.url.substr(url_fb_prefix.length)
+		url: message.attachments.url.substr(url_fb_prefix.length),
 		type: message.attachments.type
 	} );
 	    
